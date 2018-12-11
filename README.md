@@ -1,11 +1,11 @@
-# 用法
+## 用法
 
-## 安装
+### 安装
 
 ```
 npm install wechat-rematch
 ```
-## 使用
+### 使用
 
 * 小程序开发工具顶部工具栏：工具->构建npm
 
@@ -13,7 +13,7 @@ npm install wechat-rematch
 
 * 参考以下demo,在代码中定义自己的models，用createStore组装所有models,按以下步骤改造app.js、Page、Component
 
-## 定义models
+### 定义models
 
 models/count.js
 ```
@@ -38,7 +38,7 @@ models/count.js
   module.exports  = count;
 ```
 
-## 生成store
+### 生成store
 
 ```
 const { createStore } = requirePlugin("wechat-rematch")
@@ -51,7 +51,7 @@ const store = createStore({
 module.exports = store
 ```
 
-## 改造app.js
+### 改造app.js
 
 ```
   const { Provider } = requirePlugin("wechat-rematch")
@@ -64,7 +64,7 @@ module.exports = store
   )
 ```
 
-## 改造Page
+### 改造Page
 
 ```
 const { connect } = requirePlugin("wechat-rematch")
@@ -92,7 +92,7 @@ Page(connect(mapStateToData)({
 }))
 ```
 
-## 改造Component
+### 改造Component
 
 ```
 const { connect } = requirePlugin("wechat-rematch")
