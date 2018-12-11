@@ -1,18 +1,20 @@
 # 用法
+
 ## 定义models
+
 models/count.js
 ```
   const count={
     state:{
       count:0
     },
-    //reducers中的方法用于直接修改自己的state,每个方法需返回新的state
+    //处理直接修改state的事件
     reducers: {
       increment: (state, payload) => {
         return Object.assign(state, { count: state.count + payload })
       },
     },
-    //effects中的方法相当于redux中的action,用于处理数据操作，dispatch下包括所有models的reducers和effects,rootState包括所有models的state
+    //处理事件
     effects: (dispatch) => ({ 
       async incrementAsync(payload, rootState) {
         await new Promise(resolve => setTimeout(resolve, 1000))
@@ -22,7 +24,9 @@ models/count.js
   }
   module.exports  = count;
 ```
+
 ## 生成store
+
 ```
 const { createStore } = requirePlugin("wechat-rematch")
 const count = require('./models/count')
@@ -33,18 +37,25 @@ const store = createStore({
 })
 module.exports = store
 ```
+
 ## 改造app.js
+
 ```
   const { Provider } = requirePlugin("wechat-rematch")
   const store = require('./store')
-  App(Provider(store)({
-    onLaunch: function () {
-    }
-  }))
+  App(
+    Provider(store)({
+      onLaunch: function () {
+      }
+    })
+  )
 ```
+
 ## 改造Page
+
 ```
 const { connect } = requirePlugin("wechat-rematch")
+//将count注入页面的data
 function mapStateToData(state){
   return {
     count: state.count.count
@@ -61,21 +72,34 @@ Page(connect(mapStateToData)({
   add: function(){
     
     this.dispatch.count.increment(1)
+  },
+  addAsync: function(){
+    this.dispatch.count.incrementAsync(1)
   }
 }))
 ```
 
-## 组件生命周期
+## 改造Component
 
-### 销毁
-* 左上角返回  只会detached
-* redirectTo别的页面 只会detached
-* navagateTo别的页面 只会page hide
-* 在当前页面上消失 detached
+```
+const { connect } = requirePlugin("wechat-rematch")
+//将count注入组件的data
+function mapStateToData(state) {
+  return {
+    count: state.count.count
+  }
+}
+Component(connect(mapStateToData)({
 
-### 出现
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    add:function(){
+      console.log(this.data.count)
+      this.dispatch.count.increment(1)
+    }
+  }
+}))
 
-* 正常出现：created attached pageshow ready
-* 被别的页面从左上角返回： pageshow
-* 在当前页面上出现：created attached ready
-
+```
