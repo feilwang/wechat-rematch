@@ -5,11 +5,13 @@
 ```
 npm install wechat-rematch
 ```
+## 使用
+
 * 小程序开发工具顶部工具栏：工具->构建npm
 
 * 小程序右侧工具栏：勾选“使用npm模块”
 
-* 在代码中定义自己的models，用createStore组装所有models,按以下步骤改造app.js、Page、Component
+* 参考以下demo,在代码中定义自己的models，用createStore组装所有models,按以下步骤改造app.js、Page、Component
 
 ## 定义models
 
