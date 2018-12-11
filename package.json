@@ -1,7 +1,7 @@
 {
   "name": "wechat-rematch",
   "miniprogram": "dist",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "rematch used in wechat",
   "main": "dist/index.js",
   "scripts": {
@@ -10,6 +10,12 @@
   "author": "yaodandan77@163.com",
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "rematch",
+    "wechat",
+    "wechat-rematch",
+    "小程序"
   ],
   "license": "ISC",
   "dependencies": {
