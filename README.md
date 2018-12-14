@@ -41,7 +41,7 @@ models/count.js
 ### 生成store
 
 ```
-const { createStore } = requirePlugin("wechat-rematch")
+const { createStore } = require("wechat-rematch")
 const count = require('./models/count')
 const store = createStore({
   models:{
@@ -54,7 +54,7 @@ module.exports = store
 ### 改造app.js
 
 ```
-  const { Provider } = requirePlugin("wechat-rematch")
+  const { Provider } = require("wechat-rematch")
   const store = require('./store')
   App(
     Provider(store)({
@@ -67,7 +67,7 @@ module.exports = store
 ### 改造Page
 
 ```
-const { connect } = requirePlugin("wechat-rematch")
+const { connect } = require("wechat-rematch")
 //将count注入页面的data
 function mapStateToData(state){
   return {
@@ -95,7 +95,7 @@ Page(connect(mapStateToData)({
 ### 改造Component
 
 ```
-const { connect } = requirePlugin("wechat-rematch")
+const { connect } = require("wechat-rematch")
 //将count注入组件的data
 function mapStateToData(state) {
   return {

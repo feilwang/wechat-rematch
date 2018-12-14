@@ -35,8 +35,8 @@ function createStore(config) {
   // 遍历reducers和effects，分别传入state和rootState,并触发数据变化，并都绑到dispatch上
   Object.keys(models).map((key) => {
     const model = models[key]
-    const reducers = model.reducers
-    const effects = model.effects(store.dispatch)
+    const reducers = model.reducers||{}
+    const effects = model.effects && model.effects(store.dispatch)||{}
 
     store.dispatch[key] = {}
     for (const func in reducers) {
