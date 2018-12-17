@@ -2,8 +2,9 @@ import deepClone from 'deep-clone'
 
 const diff = require('object-diff')
 
+const defaultMapStateToData = () => ({})
 
-function connect(mapStateToData, mapDispatchToPage) {
+function connect(mapStateToData = defaultMapStateToData) {
   const store = getApp().store
   return function (pageConfig) {
     // 页面生命周期覆盖
@@ -34,6 +35,7 @@ function connect(mapStateToData, mapDispatchToPage) {
     const _hide = _pageLifetimes.hide
     const pageLifetimes = {
       show() {
+        this.dispatch = store.dispatch
         const data = mapStateToData(store.getState())
         const diffData = (this.data, data)
         this.setData(diffData)
@@ -59,6 +61,7 @@ function connect(mapStateToData, mapDispatchToPage) {
         _detached && _detached.call(this)
       },
       ready() {
+        this.dispatch = store.dispatch
         const data = mapStateToData(store.getState())
         const diffData = (this.data, data)
         this.setData(diffData)

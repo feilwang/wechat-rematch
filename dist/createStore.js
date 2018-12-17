@@ -51,7 +51,7 @@ function createStore(config) {
       const fn = effects[func]
 
       store.dispatch[key][func] = (payload) => {
-        fn(payload, rootState)
+        fn(payload, rootState)//TODO，这里需要验证一下rootState是否需要临时取
       }
     }
   })
