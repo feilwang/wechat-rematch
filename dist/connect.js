@@ -7,6 +7,9 @@ const defaultMapStateToData = () => ({})
 function connect(mapStateToData = defaultMapStateToData) {
   const store = getApp().store
   return function (pageConfig) {
+    if(!pageConfig.data){
+      pageConfig.data={}
+    }
     // 页面生命周期覆盖
     const _onShow = pageConfig.onShow
     const _onHide = pageConfig.onHide
