@@ -3,7 +3,11 @@ import deepClone from 'deep-clone'
 const diff = require('object-diff')
 
 const defaultMapStateToData = () => ({})
-
+const setData = (_this,data)=>{
+  if(Object.keys(data).length){
+    _this.setData(data)
+  }
+}
 function connect(mapStateToData = defaultMapStateToData) {
   const store = getApp().store
   return function (pageConfig) {
@@ -16,13 +20,14 @@ function connect(mapStateToData = defaultMapStateToData) {
     function onShow(options) {
       // 只能通过onShow来获取真正的this
       pageConfig.triggerChange = (data) => {
-        this.setData(data)
+        setData(this,data)
+        
       }
       // 每次页面显示就setData
       const data = mapStateToData(store.getState())
       // 获取有区别的数据，防止setData数据量过大
       const diffData = (this.data, data)
-      this.setData(diffData)
+      setData(this,diffData);
       _onShow && _onShow.call(this, options)
     }
     function onHide() {
@@ -41,9 +46,9 @@ function connect(mapStateToData = defaultMapStateToData) {
         this.dispatch = store.dispatch
         const data = mapStateToData(store.getState())
         const diffData = (this.data, data)
-        this.setData(diffData)
+        setData(this,diffData)
         pageConfig.triggerChange = (data) => {
-          this.setData(data)
+          setData(this,data)
         }
         _show && _show.call(this)
       },
@@ -67,9 +72,9 @@ function connect(mapStateToData = defaultMapStateToData) {
         this.dispatch = store.dispatch
         const data = mapStateToData(store.getState())
         const diffData = (this.data, data)
-        this.setData(diffData)
+        setData(this,diffData)
         pageConfig.triggerChange = (data) => {
-          this.setData(data)
+          setData(this,data)
         }
         _ready && _ready.call(this)
       },
