@@ -129,3 +129,32 @@ Component(connect(mapStateToData)({
 }))
 
 ```
+
+### 原理
+
+wechat-rematch主要提供  Provider,connect,createStore三个方法。
+
+#### Provider
+
+provider用来改造app.js，它只做了一件事，就是给app增加一个store属性，好让所有页面可以通过`getApp().store`来访问到store。
+
+#### connect
+
+connect做三件事
+
+* 将mapStateToData方法返回的数据绑定到page或者component上，当这些数据发生改变时，connect内部调用小程序原生的setDate去促使页面重渲染，因为小程序的setData是线程间的通信，官方文档介绍是尽量不要给setData传递大量数据，所以在connect内部还做了前后数据diff的比较，保证每次触发setData的数据是最小必须数据。
+
+* 当页面或组件不在当前视口中时注销事件监听，避免不必要的setData;当页面或组件回到视口时发起一次setData以保证他们渲染正确的数据
+
+* 将store.dispatch绑定到page或者component上，这样就可以在内部使用`this.dispatch.XXmodel.xxReducer`去触发action
+
+
+#### createStore
+
+createStore主要完成三件事
+
+* 解析所有注册的models，收集他们的state,挂载到rootState上
+
+* 遍历models的reducers和effects方法，给这些方法传递state作为参数，并注入setData方法
+
+* 将reducers和effects方法全部绑定到store.dispatch上。
